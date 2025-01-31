@@ -40,131 +40,375 @@
 
 body {
   font-family: 'Arial', sans-serif;
-  background-color: #f9f9f9;
+  margin: 0;
+  height: 100vh;
+  background: linear-gradient(-45deg, #3653e4, #ef4ce5, #ffa154, #fa5252, #f23ecb);
+  background-size: 400% 400%;
+  animation: bg 12s ease infinite;
 }
 
+@keyframes bg {
+  0%{
+    background-position: 0% 50%;
+  }
+  50%{
+    background-position: 100% 100%;
+  }
+  100%{
+    background-position: 0% 50%;
+  }
+}
+
+
+/* Apply a vibrant background color to the page */
 .container {
-  max-width: 1200px;
-  margin: 50px auto;
+ /* Light gray background */
   padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
+/* Set a stylish heading color */
 .heading {
+  color: #ffffff;
+  font-size: 2rem;
+  font-weight: bold;
   text-align: center;
   margin-bottom: 30px;
-  font-size: 45px;
-  font-weight: 700;
-  color: #333;
 }
 
-/* Button styles */
-.add-btn {
-  background-color: #4CAF50;
-  color: white;
-  border-radius: 5px;
-  padding: 10px 20px;
-}
-
-.addColor{
-  background-color: #000000;
-  color: white;
-  border-radius: 5px;
-  padding: 10px 20px;
-}
-
-.add-btn:hover {
-  background-color: #45a049;
-}
-
-/* Table styles */
+/* Add a gradient background to the table */
 .custom-table {
-  background-color: white;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-  border-radius: 10px;
+  background: linear-gradient(135deg, #FFB8A9, #c1e1ec); /* Soft gradient */
+  border-radius: 8px;
+  overflow: hidden;
 }
 
+/* Table styling */
 .custom-table th, .custom-table td {
   text-align: center;
-  padding: 15px;
-  font-size: 16px;
+  padding: 12px 15px;
+  font-size: 1rem;
 }
 
 .custom-table th {
-  background-color: #4CAF50;
-  color: white;
+  background-color: rgb(110, 57, 242);
+  color: #ffffff;
+  font-weight: bold;
 }
 
 .custom-table td {
-  background-color: #f9f9f9;
+  background-color: #ffffff;
+  color: #333;
+  border-bottom: 1px solid #ddd;
 }
 
-.custom-table tr:hover {
+/* Add hover effect on table rows */
+.custom-table tbody tr:hover {
   background-color: #f1f1f1;
+  cursor: pointer;
 }
 
-/* Pagination styles */
+/* Buttons styling */
+.add-btn,
+.edit-btn,
+.delete-btn,
+.save-btn,
+.cancel-btn {
+  transition: background-color 0.3s, transform 0.3s;
+}
+
+.add-btn {
+  background-color: #000000;
+  color: white;
+  border-color: #fef606;
+}
+
+.add-btn:hover {
+  background-color: #fdfffe;
+  color: #000000;
+  transform: scale(1.05);
+}
+
+.edit-btn {
+  background-color: #efb508bb;
+  color: white;
+  border: none;
+}
+
+.edit-btn:hover {
+  background-color: #e0a800;
+  transform: scale(1.05);
+}
+
+.delete-btn {
+  background-color: #dc3545;
+  color: white;
+  border: none;
+}
+
+.delete-btn:hover {
+  background-color: #c82333;
+  transform: scale(1.05);
+}
+
+.save-btn {
+  background-color: #007bff;
+  color: white;
+  border: none;
+}
+
+.save-btn:hover {
+  background-color: #0056b3;
+  transform: scale(1.05);
+}
+
+.cancel-btn {
+  background-color: #6c757d;
+  color: white;
+  border: none;
+}
+
+.cancel-btn:hover {
+  background-color: #5a6268;
+  transform: scale(1.05);
+}
+
+/* Modal styling */
+.custom-modal .modal-content {
+  border-radius: 10px;
+  background-color: #ffffff;
+  border: none;
+}
+
+.custom-modal .modal-header {
+  background-color: #007bff;
+  color: white;
+}
+
+.custom-modal .modal-footer {
+  border-top: 1px solid #ddd;
+}
+
+.form-input {
+  border-radius: 4px;
+  border: 1px solid #ddd;
+  padding: 10px;
+  font-size: 1rem;
+}
+
+.form-input:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+/* Pagination styling */
 .pagination {
   justify-content: center;
   margin-top: 20px;
 }
 
-.pagination .page-item.active .page-link {
-  background-color: #4CAF50;
-  border-color: #4CAF50;
+.pagination-item {
+  border-radius: 50%;
 }
 
-/* Modal styles */
-.custom-modal .modal-content {
-  border-radius: 10px;
+.pagination-item:hover {
+  background-color: #0cbc0c;
+  color: white;
 }
 
-.form-input {
+/* Alert styling */
+.alert {
   border-radius: 5px;
+  font-size: 1rem;
 }
 
-.save-btn, .cancel-btn {
-  border-radius: 5px;
-  padding: 8px 15px;
+.button {
+  display: inline-block;
+  padding: 1rem 2rem;
+  border-radius: 10rem;
+  background-color: rgb(0, 0, 0);
+  color: #fff;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 1rem;
+  font-weight: bold;
+  letter-spacing: 0.15rem;
+  text-decoration: none;
+  text-transform: uppercase;
+  transition: all 0.3s;
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
 }
 
-.save-btn {
-  background-color: #4CAF50;
+
+.button:hover {
+  color: black;
+}
+
+
+.button::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  background-color: rgb(213, 236, 13);
+  z-index: -1;
+  border-radius: 10rem;
+  transition: 0.3s ease all;
+  transform: scale(0, 1);
+  transform-origin: bottom left;
+  transition: transform 500ms cubic-bezier(0.86, 0, 0.07, 1);
+  transition-timing-function: cubic-bezier(0.86, 0, 0.07, 1);
+}
+.button:hover::after{
+  transform: scale(1,1);
+  transform-origin: top left;
+}
+
+span {
+  position: relative;
+  font-family: "Lato", sans-serif;
+  top: 20px;
   color: white;
+  display: inline-block;
+  font-size: 5rem;
+  text-shadow: 0 1px 0 #b7b7b7, 0 2px 0 #b7b7b7 0 3px 0 #b7b7b7, 0 4px 0 #b7b7b7, 0 5px 0 #b7b7b7, 6px 0 transparent, 0 7px 0 transparent 0 8px 0 transparent, 0 9px 0 transparent, 0 10px 10px rgba(0, 0, 0.5);
+  animation: bounce 0.4s ease infinite
+  alternate;
 }
 
-.save-btn:hover {
-  background-color: #45a049;
+h1 span:nth-child(2){
+  animation-delay: 0.1s;
+}
+h1 span:nth-child(3){
+  animation-delay: 0.2s;
+}
+h1 span:nth-child(4){
+  animation-delay: 0.3s;
+}
+h1 span:nth-child(5){
+  animation-delay: 0.4s;
+}
+h1 span:nth-child(6){
+  animation-delay: 0.5s;
 }
 
-.cancel-btn {
-  background-color: #f44336;
-  color: white;
+@keyframes bounce {
+  100% {
+    top: -20px;
+    text-shadow: 0 ipx 0 #ccc, 0 2px 0 #ccc, 0 3px 0 #ccc, 0 4px 0 #ccc, 0 5px 0 #ccc, 0 6px 0 #ccc, 0 7px 0 #ccc, 0 8px 0 #ccc, 0 8px 0 #ccc, 0 9px 0 #ccc, 0 60px 30px rgba(0, 0, 0, 0.3);
+    }
 }
 
-.cancel-btn:hover {
-  background-color: #e53935;
+
+
+
+
+
+
+.button1 {
+  display: inline-block;
+  padding: 1rem 2rem;
+  border-radius: 10rem;
+  background-color: rgb(55, 55, 55);
+  color: #fff;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 1rem;
+  font-weight: bold;
+  letter-spacing: 0.15rem;
+  text-decoration: none;
+  text-transform: uppercase;
+  transition: all 0.3s;
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
 }
 
-/* Edit and Delete Button Styles */
-.edit-btn, .delete-btn {
-  border-radius: 5px;
+
+.button1:hover {
+  color: rgb(222, 249, 117);
 }
 
-.edit-btn {
-  background-color: #FFC107;
-  color: white;
-  margin-right: 20px;
+
+.button1::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  background-color: rgb(233, 245, 127);
+  z-index: -1;
+  border-radius: 10rem;
+  transition: 0.3s ease all;
+  transform: scale(0, 1);
+  transform-origin: bottom left;
+  transition: transform 500ms cubic-bezier(0.86, 0, 0.07, 1);
+  transition-timing-function: cubic-bezier(0.86, 0, 0.07, 1);
+}
+.button1:hover::after{
+  transform: scale(1,1);
+  transform-origin: top left;
 }
 
-.edit-btn:hover {
-  background-color: #e68900;
+
+
+
+
+
+
+
+
+
+
+
+
+.button2 {
+  display: inline-block;
+  padding: 1rem 2rem;
+  border-radius: 10rem;
+  background-color: rgb(240, 42, 42);
+  color: #fff;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 1rem;
+  font-weight: bold;
+  letter-spacing: 0.15rem;
+  text-decoration: none;
+  text-transform: uppercase;
+  transition: all 0.3s;
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
 }
 
-.delete-btn {
-  background-color: #f44336;
-  color: white;
+
+.button2:hover {
+  color: rgb(196, 243, 8);
 }
 
-.delete-btn:hover {
-  background-color: #e53935;
+
+.button2::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  background-color: rgb(192, 195, 35);
+  z-index: -1;
+  border-radius: 10rem;
+  transition: 0.3s ease all;
+  transform: scale(0, 1);
+  transform-origin: bottom left;
+  transition: transform 500ms cubic-bezier(0.86, 0, 0.07, 1);
+  transition-timing-function: cubic-bezier(0.86, 0, 0.07, 1);
+}
+.button2:hover::after{
+  transform: scale(1,1);
+  transform-origin: top left;
 }

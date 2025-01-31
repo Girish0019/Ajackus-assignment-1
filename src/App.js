@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { Button, Table, Modal, Form, Alert, Pagination } from "react-bootstrap";
+import { Button, Table, Modal, Form, Alert, Pagination, Spinner } from "react-bootstrap";
 import './App.css';  // Import the CSS file
 
 const App = () => {
@@ -16,6 +16,7 @@ const App = () => {
   const [error, setError] = useState("");
   const [editing, setEditing] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
+  const [loading, setLoading] = useState(true);
   const usersPerPage = 5;
 
   useEffect(() => {
@@ -33,8 +34,10 @@ const App = () => {
         department: "General",
       }));
       setUsers(formattedUsers);
+      setLoading(false);
     } catch (err) {
       setError("Failed to fetch users.");
+      setLoading(false);
     }
   };
 
@@ -43,7 +46,6 @@ const App = () => {
   };
 
   const handleAddUser = async () => {
-    // Validation: Check if any input field is empty
     if (!formData.firstName || !formData.lastName || !formData.email || !formData.department) {
       setError("All fields must be filled out!");
       return;
@@ -126,110 +128,137 @@ const App = () => {
 
   return (
     <div className="container">
-      <h2 className="heading">User Management</h2>
+      <h2 className="heading">
+          <span>U</span>
+          <span>S</span>
+          <span>E</span>
+          <span>R</span>
+          <span>_</span>
+          <span>M</span>
+          <span>A</span>
+          <span>N</span>
+          <span>A</span>
+          <span>G</span>
+          <span>E</span>
+          <span>M</span>
+          <span>E</span>
+          <span>N</span>
+          <span>T</span>
+      </h2>
       {error && <Alert variant="danger">{error}</Alert>}
-      <Button variant="primary" onClick={() => handleOpenModal()} className="mb-3 add-btn">
-        Add User
-      </Button>
-      <Table striped bordered hover className="custom-table">
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>First Name</th>
-            <th>Last Name</th>
-            <th>Email</th>
-            <th>Department</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {paginateUsers().map((user) => (
-            <tr key={user.id}>
-              <td>{user.id}</td>
-              <td>{user.firstName}</td>
-              <td>{user.lastName}</td>
-              <td>{user.email}</td>
-              <td>{user.department}</td>
-              <td>
-                <Button variant="warning" size="sm" onClick={() => handleOpenModal(user)} className="edit-btn">
-                  Edit
-                </Button>{" "}
-                <Button variant="danger" size="sm" onClick={() => handleDeleteUser(user.id)} className="delete-btn">
-                  Delete
-                </Button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </Table>
 
-      {/* Pagination */}
-      <Pagination className="pagination">
-        {[...Array(Math.ceil(users.length / usersPerPage)).keys()].map((num) => (
-          <Pagination.Item key={num} active={num + 1 === currentPage} onClick={() => setCurrentPage(num + 1)}>
-            {num + 1}
-          </Pagination.Item>
-        ))}
-      </Pagination>
+      {/* Loading Spinner */}
+      {loading ? (
+        <div className="loading-container">
+          <Spinner animation="border" variant="primary" />
+          <span className="loading-text">Loading users...</span>
+        </div>
+      ) : (
+        <>
+          <Button variant="primary" onClick={() => handleOpenModal()} className="mb-3 button">
+            Add User
+          </Button>
+          <Table striped bordered hover className="custom-table animated-table">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Email</th>
+                <th>Department</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {paginateUsers().map((user) => (
+                <tr key={user.id} className="table-row">
+                  <td>{user.id}</td>
+                  <td>{user.firstName}</td>
+                  <td>{user.lastName}</td>
+                  <td>{user.email}</td>
+                  <td>{user.department}</td>
+                  <td>
+                    <Button variant="warning" size="sm" onClick={() => handleOpenModal(user)} className="edit-btn button1">
+                      Edit
+                    </Button>{" "}
+                    <Button variant="danger" size="sm" onClick={() => handleDeleteUser(user.id)} className="delete-btn button2">
+                      Delete
+                    </Button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </Table>
 
-      {/* Add/Edit Modal */}
-      <Modal show={showModal} onHide={handleCloseModal} className="custom-modal">
-        <Modal.Header closeButton>
-          <Modal.Title>{editing ? "Edit User" : "Add User"}</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <Form>
-            <Form.Group controlId="formFirstName">
-              <Form.Label>First Name</Form.Label>
-              <Form.Control
-                type="text"
-                name="firstName"
-                value={formData.firstName}
-                onChange={handleFormChange}
-                className="form-input"
-              />
-            </Form.Group>
-            <Form.Group controlId="formLastName" className="mt-3">
-              <Form.Label>Last Name</Form.Label>
-              <Form.Control
-                type="text"
-                name="lastName"
-                value={formData.lastName}
-                onChange={handleFormChange}
-                className="form-input"
-              />
-            </Form.Group>
-            <Form.Group controlId="formEmail" className="mt-3">
-              <Form.Label>Email</Form.Label>
-              <Form.Control
-                type="email"
-                name="email"
-                value={formData.email}
-                onChange={handleFormChange}
-                className="form-input"
-              />
-            </Form.Group>
-            <Form.Group controlId="formDepartment" className="mt-3">
-              <Form.Label>Department</Form.Label>
-              <Form.Control
-                type="text"
-                name="department"
-                value={formData.department}
-                onChange={handleFormChange}
-                className="form-input"
-              />
-            </Form.Group>
-          </Form>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleCloseModal} className="cancel-btn">
-            Cancel
-          </Button>
-          <Button variant="primary" onClick={editing ? handleEditUser : handleAddUser} className="save-btn">
-            {editing ? "Save Changes" : "Add User"}
-          </Button>
-        </Modal.Footer>
-      </Modal>
+          {/* Pagination */}
+          <Pagination className="pagination">
+            {[...Array(Math.ceil(users.length / usersPerPage)).keys()].map((num) => (
+              <Pagination.Item key={num} active={num + 1 === currentPage} onClick={() => setCurrentPage(num + 1)}>
+                {num + 1}
+              </Pagination.Item>
+            ))}
+          </Pagination>
+
+          {/* Add/Edit Modal */}
+          <Modal show={showModal} onHide={handleCloseModal} className="custom-modal">
+            <Modal.Header closeButton>
+              <Modal.Title>{editing ? "Edit User" : "Add User"}</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              <Form>
+                <Form.Group controlId="formFirstName">
+                  <Form.Label>First Name</Form.Label>
+                  <Form.Control
+                    type="text"
+                    name="firstName"
+                    value={formData.firstName}
+                    onChange={handleFormChange}
+                    className="form-input"
+                  />
+                </Form.Group>
+                <Form.Group controlId="formLastName" className="mt-3">
+                  <Form.Label>Last Name</Form.Label>
+                  <Form.Control
+                    type="text"
+                    name="lastName"
+                    value={formData.lastName}
+                    onChange={handleFormChange}
+                    className="form-input"
+                  />
+                </Form.Group>
+                <Form.Group controlId="formEmail" className="mt-3">
+                  <Form.Label>Email</Form.Label>
+                  <Form.Control
+                    type="email"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleFormChange}
+                    className="form-input"
+                  />
+                </Form.Group>
+                <Form.Group controlId="formDepartment" className="mt-3">
+                  <Form.Label>Department</Form.Label>
+                  <Form.Control
+                    type="text"
+                    name="department"
+                    value={formData.department}
+                    onChange={handleFormChange}
+                    className="form-input"
+                  />
+                </Form.Group>
+              </Form>
+            </Modal.Body>
+            <Modal.Footer>
+              <Button variant="secondary" onClick={handleCloseModal} className="cancel-btn button">
+                Cancel
+              </Button>
+              <Button variant="primary" onClick={editing ? handleEditUser : handleAddUser} className="save-btn button">
+                {editing ? "Save Changes" : "Add User"}
+              </Button>
+            </Modal.Footer>
+          </Modal>
+        </>
+      )}
     </div>
   );
 };
